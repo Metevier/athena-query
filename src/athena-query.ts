@@ -23,7 +23,7 @@ export class AthenaQuery {
   constructor(
     private readonly athena: Athena,
     private readonly options?: Options
-  ) {}
+  ) { }
 
   /**
    * @see https://github.com/classmethod/athena-query#usage
@@ -49,6 +49,11 @@ export class AthenaQuery {
        * @see https://docs.aws.amazon.com/athena/latest/ug/select.html#select-parameters
        */
       maxResults?: number;
+
+      /**
+       * The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/.
+       */
+      outputLocation?: string;
     }
   ): AsyncGenerator<helpers.AtheneRecordData, void, undefined> {
     const QueryExecutionId = await helpers.startQueryExecution({
@@ -66,6 +71,7 @@ export class AthenaQuery {
             throw new Error(`${typeOfParam} type is not allowed.`);
         }
       }),
+      outputLocation: options?.outputLocation,
       ...this.options,
     });
 
