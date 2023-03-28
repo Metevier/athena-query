@@ -38,7 +38,7 @@ export class AthenaQuery {
        * A list of values for the parameters in a query.
        * The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
        */
-      executionParameters?: (string | number | BigInt)[];
+      executionParameters?: (string | number | BigInt | boolean)[];
 
       /**
        * The maximum number of results (rows) to return in this request.
@@ -62,6 +62,7 @@ export class AthenaQuery {
       executionParameters: options?.executionParameters?.map((param) => {
         const typeOfParam = typeof param;
         switch (typeOfParam) {
+          case "boolean":
           case "bigint":
           case "number":
             return param.toString();
